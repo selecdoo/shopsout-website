@@ -924,6 +924,9 @@
       const submitBtn = form.querySelector('button[type="submit"]');
       
       if (email) {
+        // Get current language at submission time (not from closure)
+        const currentLang = localStorage.getItem('selectedLanguage') || 'en';
+        
         // Send email to webhook
         sendToWebhook({
           email: email,
