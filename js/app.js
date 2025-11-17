@@ -970,6 +970,30 @@
     }
   }
 
+  // Webhook helper function to send data to n8n
+  async function sendToWebhook(data) {
+    const WEBHOOK_URL = 'https://selecdoo.app.n8n.cloud/webhook/486867ef-e706-4ae9-931c-c73fe74f872e';
+    
+    try {
+      const response = await fetch(WEBHOOK_URL, {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify(data)
+      });
+      
+      if (!response.ok) {
+        throw new Error(`Webhook request failed: ${response.status}`);
+      }
+      
+      return { success: true };
+    } catch (error) {
+      console.error('Webhook error:', error);
+      return { success: false, error: error.message };
+    }
+  }
+
   // Newsletter form handler (footer forms with name + email)
   function setupNewsletterForms() {
     const forms = document.querySelectorAll('.newsletter-form');
@@ -986,8 +1010,19 @@
           return;
         }
         
+        const name = nameInput.value.trim();
+        const email = emailInput.value.trim();
+        
         // Get current language
         const currentLang = localStorage.getItem('selectedLanguage') || 'en';
+        
+        // Send data to webhook
+        sendToWebhook({
+          name: name,
+          email: email,
+          source: 'footer_newsletter',
+          timestamp: new Date().toISOString()
+        });
         
         // Trigger confetti
         createConfetti();
@@ -1007,12 +1042,6 @@
           button.style.background = '';
           button.disabled = false;
         }, 3000);
-        
-        // TODO: Add actual newsletter API integration here
-        console.log('Newsletter subscription:', {
-          name: nameInput.value,
-          email: emailInput.value
-        });
       });
     });
   }
@@ -1034,8 +1063,19 @@
         return;
       }
       
+      const name = nameInput.value.trim();
+      const email = emailInput.value.trim();
+      
       // Get current language
       const currentLang = localStorage.getItem('selectedLanguage') || 'en';
+      
+      // Send data to webhook
+      sendToWebhook({
+        name: name,
+        email: email,
+        source: 'hero_signup',
+        timestamp: new Date().toISOString()
+      });
       
       // Trigger confetti
       createConfetti();
@@ -1055,12 +1095,6 @@
         button.style.background = '';
         button.disabled = false;
       }, 3000);
-      
-      // TODO: Add actual newsletter API integration here
-      console.log('Hero signup:', {
-        name: nameInput.value,
-        email: emailInput.value
-      });
     });
   }
 

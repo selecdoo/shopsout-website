@@ -4025,7 +4025,7 @@ input[type="range"] { width: 100%; accent-color: var(--brand-solid); }
   color: var(--muted);
   font-size: 20px;
   line-height: 1;
-  display: flex;
+  display: none; /* Hidden on desktop - users can click outside */
   align-items: center;
   justify-content: center;
   transition: all 0.2s;
@@ -4422,6 +4422,7 @@ input[type="range"] { width: 100%; accent-color: var(--brand-solid); }
   }
   
   .affiliate-modal-close {
+    display: flex; /* Show on mobile screens */
     top: 10px;
     right: 10px;
     width: 28px;

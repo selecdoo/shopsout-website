@@ -12,6 +12,30 @@
     catch(_) { return `${Number(value).toFixed(2)} ${currency || '€'}`; }
   }
 
+  // Webhook helper function to send data to n8n
+  async function sendToWebhook(data) {
+    const WEBHOOK_URL = 'https://selecdoo.app.n8n.cloud/webhook/486867ef-e706-4ae9-931c-c73fe74f872e';
+    
+    try {
+      const response = await fetch(WEBHOOK_URL, {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify(data)
+      });
+      
+      if (!response.ok) {
+        throw new Error(`Webhook request failed: ${response.status}`);
+      }
+      
+      return { success: true };
+    } catch (error) {
+      console.error('Webhook error:', error);
+      return { success: false, error: error.message };
+    }
+  }
+
   /**
    * Get product identifier from URL
    * Supports multiple URL formats:
@@ -106,16 +130,17 @@
     }
     
     if (data && data.store_id) {
-      // Get store name and logo
+      // Get store name, logo, and coupon code
       const { data: store } = await window.supabaseClient
         .from('cleaned_stores')
-        .select('cleaned_name, logo_url')
+        .select('cleaned_name, logo_url, coupon_code')
         .eq('id', data.store_id)
         .single();
       
       if (store) {
         data.store_name = store.cleaned_name;
         data.store_logo_url = store.logo_url;
+        data.store_coupon_code = store.coupon_code;
       }
     }
     
@@ -431,18 +456,22 @@
           cardHeader.appendChild(discountBadgeInCard);
         }
         
-        // Add affiliate badge to card header (same line)
-        const affiliateBadgeInCard = document.createElement('span');
-        affiliateBadgeInCard.className = 'brand-affiliate';
-        affiliateBadgeInCard.textContent = dict['product.affiliateBonus'] || '+10%';
-        affiliateBadgeInCard.setAttribute('data-text', dict['product.extra'] || 'Extra');
-        cardHeader.appendChild(affiliateBadgeInCard);
+        // Add affiliate badge to card header ONLY if store has coupon code
+        const hasCouponCode = p.store_coupon_code && p.store_coupon_code.trim() !== '';
+        if (hasCouponCode) {
+          const affiliateBadgeInCard = document.createElement('span');
+          affiliateBadgeInCard.className = 'brand-affiliate';
+          affiliateBadgeInCard.textContent = dict['product.affiliateBonus'] || '+10%';
+          affiliateBadgeInCard.setAttribute('data-text', dict['product.extra'] || 'Extra');
+          cardHeader.appendChild(affiliateBadgeInCard);
+        }
         
         flowContainer.appendChild(cardHeader);
         
         const originalPrice = Number(p.price);
         const storePrice = p.sale_price ? Number(p.sale_price) : originalPrice;
-        const finalPrice = storePrice * 0.9; // 10% affiliate discount
+        // Apply 10% affiliate discount ONLY if store has coupon code
+        const finalPrice = hasCouponCode ? storePrice * 0.9 : storePrice;
         const totalSavings = originalPrice - finalPrice;
         const totalSavingsPercent = Math.round((totalSavings / originalPrice) * 100);
         
@@ -733,9 +762,12 @@
     const currentLang = localStorage.getItem('selectedLanguage') || 'en';
     const dict = window.translations?.[currentLang] || window.translations?.en || {};
     
-    // Calculate prices if product data available
+    // Check if store has coupon code
+    const hasCouponCode = productData && productData.store_coupon_code && productData.store_coupon_code.trim() !== '';
+    
+    // Calculate prices if product data available AND store has coupon code
     let priceHTML = '';
-    if (productData && (productData.price || productData.sale_price)) {
+    if (hasCouponCode && productData && (productData.price || productData.sale_price)) {
       const originalPrice = Number(productData.price) || Number(productData.sale_price);
       const currentPrice = Number(productData.sale_price) || originalPrice;
       const shopshoutPrice = currentPrice * 0.9;
@@ -780,6 +812,7 @@
         </div>
         
         <div class="affiliate-modal-body">
+          ${hasCouponCode ? `
           <div class="affiliate-modal-highlight">
             <div class="affiliate-modal-discount">+10%</div>
             <p class="affiliate-modal-discount-text">
@@ -788,6 +821,7 @@
                 : 'Extra discount through ShopShout'}
             </p>
           </div>
+          ` : ''}
           
           <form class="affiliate-modal-form" id="affiliateModalForm">
             <div class="affiliate-modal-actions">
@@ -845,14 +879,12 @@
       const email = emailInput.value.trim();
       
       if (email) {
-        // TODO: Add email capture functionality
-        // Send email to Supabase or newsletter service
-        // Example:
-        // await window.supabaseClient
-        //   .from('newsletter_subscribers')
-        //   .insert([{ email: email, source: 'affiliate_modal' }]);
-        
-        // Email captured successfully
+        // Send email to webhook
+        sendToWebhook({
+          email: email,
+          source: 'affiliate_modal',
+          timestamp: new Date().toISOString()
+        });
         
         // Show success feedback
         emailInput.value = '';
@@ -960,7 +992,8 @@
             currentUrl.searchParams.set('productData', encodeURIComponent(JSON.stringify({
               price: currentProductData.price,
               sale_price: currentProductData.sale_price,
-              currency: currentProductData.currency
+              currency: currentProductData.currency,
+              store_coupon_code: currentProductData.store_coupon_code
             })));
           }
           
