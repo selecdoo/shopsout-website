@@ -12,6 +12,50 @@
     catch(_) { return `${Number(value).toFixed(2)} ${currency || '€'}`; }
   }
 
+  // Confetti animation function
+  function createConfetti() {
+    const confettiCount = 50;
+    const colors = ['#667eea', '#764ba2', '#f59e0b', '#10b981', '#ec4899', '#3b82f6'];
+    
+    for (let i = 0; i < confettiCount; i++) {
+      const confetti = document.createElement('div');
+      confetti.style.position = 'fixed';
+      confetti.style.width = '10px';
+      confetti.style.height = '10px';
+      confetti.style.backgroundColor = colors[Math.floor(Math.random() * colors.length)];
+      confetti.style.left = Math.random() * 100 + '%';
+      confetti.style.top = '-10px';
+      confetti.style.opacity = '1';
+      confetti.style.borderRadius = Math.random() > 0.5 ? '50%' : '0';
+      confetti.style.pointerEvents = 'none';
+      confetti.style.zIndex = '9999';
+      confetti.style.transform = 'rotate(' + (Math.random() * 360) + 'deg)';
+      
+      document.body.appendChild(confetti);
+      
+      const duration = Math.random() * 3 + 2;
+      const xMovement = (Math.random() - 0.5) * 100;
+      
+      confetti.animate([
+        { 
+          transform: 'translateY(0) translateX(0) rotate(0deg)',
+          opacity: 1 
+        },
+        { 
+          transform: `translateY(${window.innerHeight + 20}px) translateX(${xMovement}px) rotate(${Math.random() * 720}deg)`,
+          opacity: 0 
+        }
+      ], {
+        duration: duration * 1000,
+        easing: 'cubic-bezier(0.25, 0.46, 0.45, 0.94)'
+      });
+      
+      setTimeout(() => {
+        confetti.remove();
+      }, duration * 1000);
+    }
+  }
+
   // Webhook helper function to send data to n8n
   async function sendToWebhook(data) {
     const WEBHOOK_URL = 'https://selecdoo.app.n8n.cloud/webhook/486867ef-e706-4ae9-931c-c73fe74f872e';
@@ -877,6 +921,7 @@
       e.preventDefault();
       
       const email = emailInput.value.trim();
+      const submitBtn = form.querySelector('button[type="submit"]');
       
       if (email) {
         // Send email to webhook
@@ -886,14 +931,25 @@
           timestamp: new Date().toISOString()
         });
         
+        // Trigger confetti
+        createConfetti();
+        
         // Show success feedback
+        const originalButtonText = submitBtn.textContent;
+        submitBtn.textContent = '✓ ' + (currentLang === 'de' ? 'Abonniert!' : 'Subscribed!');
+        submitBtn.style.background = 'linear-gradient(135deg, #10b981 0%, #059669 100%)';
+        submitBtn.disabled = true;
+        
         emailInput.value = '';
-        emailInput.placeholder = currentLang === 'de' ? '✓ Danke!' : '✓ Thanks!';
         emailInput.disabled = true;
+        
+        // Reset after 3 seconds
         setTimeout(() => {
+          submitBtn.textContent = originalButtonText;
+          submitBtn.style.background = '';
+          submitBtn.disabled = false;
           emailInput.disabled = false;
-          emailInput.placeholder = currentLang === 'de' ? 'deine@email.com' : 'your@email.com';
-        }, 2000);
+        }, 3000);
       }
     });
     
@@ -1049,4 +1105,3 @@
   await render();
   checkAndShowModalFromNewTab();
 })();
-

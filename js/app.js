@@ -1029,7 +1029,7 @@
         
         // Update button to show success
         const originalButtonText = button.textContent;
-        button.textContent = '✓ ' + (currentLang === 'de' ? 'Erfolgreich!' : 'Success!');
+        button.textContent = '✓ ' + (currentLang === 'de' ? 'Abonniert!' : 'Subscribed!');
         button.style.background = 'linear-gradient(135deg, #10b981 0%, #059669 100%)';
         button.disabled = true;
         
@@ -1082,7 +1082,7 @@
       
       // Update button to show success
       const originalButtonText = button.textContent;
-      button.textContent = '✓ ' + (currentLang === 'de' ? 'Erfolgreich!' : 'Success!');
+      button.textContent = '✓ ' + (currentLang === 'de' ? 'Abonniert!' : 'Subscribed!');
       button.style.background = 'linear-gradient(135deg, #10b981 0%, #059669 100%)';
       button.disabled = true;
       
