@@ -632,7 +632,7 @@
       
       // Get current language for translations
       const currentLang = localStorage.getItem('selectedLanguage') || 'en';
-      const dict = window.translations?.[currentLang] || window.translations?.de || {};
+      const dict = window.translations?.[currentLang] || window.translations?.en || {};
       const resultsText = dict['results.count'] || 'Results';
       const categoriesText = dict['results.categories'] || 'Categories';
       
@@ -696,7 +696,7 @@
           noResults.style.display = 'block';
           // Get current language for error message
           const currentLang = localStorage.getItem('selectedLanguage') || 'en';
-          const dict = window.translations?.[currentLang] || window.translations?.de || {};
+          const dict = window.translations?.[currentLang] || window.translations?.en || {};
           const errorMsg = dict['infiniteScroll.noResults'] || 'No products found. Try different filters.';
           noResults.textContent = errorMsg;
         }
@@ -734,7 +734,7 @@
       
       // Get current language for loading text
       const currentLang = localStorage.getItem('selectedLanguage') || 'en';
-      const dict = window.translations?.[currentLang] || window.translations?.de || {};
+      const dict = window.translations?.[currentLang] || window.translations?.en || {};
       const loadingText = dict['infiniteScroll.loading'] || 'Loading more products...';
       loader.innerHTML = `
         <div class="loader-spinner"></div>
@@ -750,7 +750,7 @@
     function showEndMessage() {
       const loader = createLoadingIndicator();
       const currentLang = localStorage.getItem('selectedLanguage') || 'en';
-      const dict = window.translations?.[currentLang] || window.translations?.de || {};
+      const dict = window.translations?.[currentLang] || window.translations?.en || {};
       const endText = dict['infiniteScroll.allLoaded'] || 'All products loaded';
       loader.innerHTML = `
         <svg width="24" height="24" viewBox="0 0 24 24" fill="none" style="color:#999;">

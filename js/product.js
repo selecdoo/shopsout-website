@@ -169,7 +169,7 @@
     if (!product) return;
     
     const currentLang = localStorage.getItem('selectedLanguage') || 'en';
-    const dict = window.translations?.[currentLang] || window.translations?.de || {};
+    const dict = window.translations?.[currentLang] || window.translations?.en || {};
     
     // Update "Original Price" label
     const originalLabel = document.querySelector('.price-flow-item.original .price-flow-label');
@@ -373,7 +373,7 @@
         pricesContainer.style.display = 'none';
         
         const currentLang = localStorage.getItem('selectedLanguage') || 'en';
-        const dict = window.translations?.[currentLang] || window.translations?.de || {};
+        const dict = window.translations?.[currentLang] || window.translations?.en || {};
         
         // Create the price flow container
         const flowContainer = document.createElement('div');
@@ -731,7 +731,7 @@
   function showAffiliateModal(affiliateLink, productData = null) {
     // Get current language for translations
     const currentLang = localStorage.getItem('selectedLanguage') || 'en';
-    const dict = window.translations?.[currentLang] || window.translations?.de || {};
+    const dict = window.translations?.[currentLang] || window.translations?.en || {};
     
     // Calculate prices if product data available
     let priceHTML = '';

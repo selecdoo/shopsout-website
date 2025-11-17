@@ -522,7 +522,7 @@
   initializeLanguage();
 
   function setLanguage(lang) {
-    const dict = translations[lang] || translations.de;
+    const dict = translations[lang] || translations.en;
     // text content
     document.querySelectorAll('[data-i18n]').forEach(node => {
       const key = node.getAttribute('data-i18n');
@@ -558,7 +558,7 @@
   // Helper function to apply current language to specific elements (for dynamically created content)
   function applyLanguageToElement(element) {
     const selectedLang = localStorage.getItem('selectedLanguage') || 'en';
-    const dict = translations[selectedLang] || translations.de;
+    const dict = translations[selectedLang] || translations.en;
     
     element.querySelectorAll('[data-i18n]').forEach(node => {
       const key = node.getAttribute('data-i18n');
