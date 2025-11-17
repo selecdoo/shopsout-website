@@ -16,8 +16,8 @@
       });
     }
 
-    // Get initial language from localStorage or default to 'de'
-    const savedLang = localStorage.getItem('selectedLanguage') || 'de';
+    // Get initial language from localStorage or default to 'en'
+    const savedLang = localStorage.getItem('selectedLanguage') || 'en';
     showLanguageContent(savedLang);
 
     // Listen for language changes

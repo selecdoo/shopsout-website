@@ -133,7 +133,7 @@
     const descriptionEl = document.getElementById('pdDesc');
     if (!descriptionEl || !product) return;
     
-    const currentLang = localStorage.getItem('selectedLanguage') || 'de';
+    const currentLang = localStorage.getItem('selectedLanguage') || 'en';
     let productDescription = null;
     
     if (currentLang === 'de') {
@@ -168,7 +168,7 @@
   function updatePriceFlowCardText(product) {
     if (!product) return;
     
-    const currentLang = localStorage.getItem('selectedLanguage') || 'de';
+    const currentLang = localStorage.getItem('selectedLanguage') || 'en';
     const dict = window.translations?.[currentLang] || window.translations?.de || {};
     
     // Update "Original Price" label
@@ -372,7 +372,7 @@
         // Hide the old price display
         pricesContainer.style.display = 'none';
         
-        const currentLang = localStorage.getItem('selectedLanguage') || 'de';
+        const currentLang = localStorage.getItem('selectedLanguage') || 'en';
         const dict = window.translations?.[currentLang] || window.translations?.de || {};
         
         // Create the price flow container
@@ -730,7 +730,7 @@
    */
   function showAffiliateModal(affiliateLink, productData = null) {
     // Get current language for translations
-    const currentLang = localStorage.getItem('selectedLanguage') || 'de';
+    const currentLang = localStorage.getItem('selectedLanguage') || 'en';
     const dict = window.translations?.[currentLang] || window.translations?.de || {};
     
     // Calculate prices if product data available

@@ -237,7 +237,7 @@
     const descriptionEl = document.getElementById('aboutStoreDescription');
     if (!descriptionEl || !store) return;
     
-    const currentLang = localStorage.getItem('selectedLanguage') || 'de';
+    const currentLang = localStorage.getItem('selectedLanguage') || 'en';
     let storeDescription = null;
     
     if (currentLang === 'de') {
@@ -272,7 +272,7 @@
   function updateStoreBadgeAndStatus(store) {
     if (!store) return;
     
-    const currentLang = localStorage.getItem('selectedLanguage') || 'de';
+    const currentLang = localStorage.getItem('selectedLanguage') || 'en';
     
     // Update badge
     const badge = document.getElementById('storeBadge');
@@ -290,7 +290,7 @@
     const featuresList = document.getElementById('storeFeaturesList');
     if (!featuresList || !store) return;
     
-    const currentLang = localStorage.getItem('selectedLanguage') || 'de';
+    const currentLang = localStorage.getItem('selectedLanguage') || 'en';
     const features = [];
     
     if (store.ai_shipping_country) {
@@ -332,7 +332,7 @@
     // Store badge
     const badge = document.getElementById('storeBadge');
     // Get current language for badge text
-    const currentLang = localStorage.getItem('selectedLanguage') || 'de';
+    const currentLang = localStorage.getItem('selectedLanguage') || 'en';
     if (store.is_published_to_deals) {
       badge.textContent = currentLang === 'de' ? 'Top-Shop' : 'Top Shop';
       badge.style.background = '#10b981';
@@ -418,7 +418,7 @@
     dealsGrid.innerHTML = '';
     
     if (deals.length === 0) {
-      const currentLang = localStorage.getItem('selectedLanguage') || 'de';
+      const currentLang = localStorage.getItem('selectedLanguage') || 'en';
       let noDealsMsg;
       
       if (isSearchResult) {
@@ -447,7 +447,7 @@
     
     // Add expand/collapse link if there are more than 6 products
     if (deals.length > 6) {
-      const currentLang = localStorage.getItem('selectedLanguage') || 'de';
+      const currentLang = localStorage.getItem('selectedLanguage') || 'en';
       
       const expandLink = document.createElement('div');
       expandLink.className = 'expand-products-link';
@@ -623,7 +623,7 @@
   function updateNoDealsMessage() {
     const noDealsEl = document.querySelector('.no-deals-message');
     if (noDealsEl) {
-      const currentLang = localStorage.getItem('selectedLanguage') || 'de';
+      const currentLang = localStorage.getItem('selectedLanguage') || 'en';
       const noDealsMsg = currentLang === 'de' 
         ? 'Derzeit sind keine Deals von diesem Shop verfügbar.'
         : 'No deals available from this store at the moment.';
@@ -635,7 +635,7 @@
   function updateExpandCollapseLink() {
     const expandLink = document.querySelector('.expand-products-link a');
     if (expandLink && allStoreProducts.length > 6) {
-      const currentLang = localStorage.getItem('selectedLanguage') || 'de';
+      const currentLang = localStorage.getItem('selectedLanguage') || 'en';
       
       if (isShowingAllProducts) {
         const showLessText = getTranslation('store.showLess', currentLang);

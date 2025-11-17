@@ -557,7 +557,7 @@
 
   // Helper function to apply current language to specific elements (for dynamically created content)
   function applyLanguageToElement(element) {
-    const selectedLang = localStorage.getItem('selectedLanguage') || 'de';
+    const selectedLang = localStorage.getItem('selectedLanguage') || 'en';
     const dict = translations[selectedLang] || translations.de;
     
     element.querySelectorAll('[data-i18n]').forEach(node => {
@@ -892,7 +892,7 @@
             }).join('');
             dropdown.style.display = 'block';
           } else {
-            const currentLang = localStorage.getItem('selectedLanguage') || 'de';
+            const currentLang = localStorage.getItem('selectedLanguage') || 'en';
             const noResultsMsg = currentLang === 'de' ? 'Keine Produkte gefunden' : 'No products found';
             dropdown.innerHTML = `<div class="search-no-results">${noResultsMsg}</div>`;
             dropdown.style.display = 'block';
@@ -987,7 +987,7 @@
         }
         
         // Get current language
-        const currentLang = localStorage.getItem('selectedLanguage') || 'de';
+        const currentLang = localStorage.getItem('selectedLanguage') || 'en';
         
         // Trigger confetti
         createConfetti();
@@ -1035,7 +1035,7 @@
       }
       
       // Get current language
-      const currentLang = localStorage.getItem('selectedLanguage') || 'de';
+      const currentLang = localStorage.getItem('selectedLanguage') || 'en';
       
       // Trigger confetti
       createConfetti();

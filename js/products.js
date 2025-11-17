@@ -357,7 +357,7 @@
       const prices = document.createElement('div');
       prices.className = 'deal-v2-prices';
       // Get current language for price labels
-      const currentLang = localStorage.getItem('selectedLanguage') || 'de';
+      const currentLang = localStorage.getItem('selectedLanguage') || 'en';
       const priceLabels = currentLang === 'de' 
         ? { before: 'Vorher:', now: 'Jetzt nur:' }
         : { before: 'Before:', now: 'Now only:' };
@@ -455,7 +455,7 @@
       ];
       
       // Get current language for translations
-      const currentLang = localStorage.getItem('selectedLanguage') || 'de';
+      const currentLang = localStorage.getItem('selectedLanguage') || 'en';
       
       // Create proper mapping between category names and translation keys
       const categoryTranslationMap = {
@@ -631,7 +631,7 @@
       if (!resultsMeta) return;
       
       // Get current language for translations
-      const currentLang = localStorage.getItem('selectedLanguage') || 'de';
+      const currentLang = localStorage.getItem('selectedLanguage') || 'en';
       const dict = window.translations?.[currentLang] || window.translations?.de || {};
       const resultsText = dict['results.count'] || 'Results';
       const categoriesText = dict['results.categories'] || 'Categories';
@@ -695,7 +695,7 @@
         if (noResults) {
           noResults.style.display = 'block';
           // Get current language for error message
-          const currentLang = localStorage.getItem('selectedLanguage') || 'de';
+          const currentLang = localStorage.getItem('selectedLanguage') || 'en';
           const dict = window.translations?.[currentLang] || window.translations?.de || {};
           const errorMsg = dict['infiniteScroll.noResults'] || 'No products found. Try different filters.';
           noResults.textContent = errorMsg;
@@ -733,7 +733,7 @@
       loader.style.display = 'flex'; // Changed to flex for proper layout
       
       // Get current language for loading text
-      const currentLang = localStorage.getItem('selectedLanguage') || 'de';
+      const currentLang = localStorage.getItem('selectedLanguage') || 'en';
       const dict = window.translations?.[currentLang] || window.translations?.de || {};
       const loadingText = dict['infiniteScroll.loading'] || 'Loading more products...';
       loader.innerHTML = `
@@ -749,7 +749,7 @@
     
     function showEndMessage() {
       const loader = createLoadingIndicator();
-      const currentLang = localStorage.getItem('selectedLanguage') || 'de';
+      const currentLang = localStorage.getItem('selectedLanguage') || 'en';
       const dict = window.translations?.[currentLang] || window.translations?.de || {};
       const endText = dict['infiniteScroll.allLoaded'] || 'All products loaded';
       loader.innerHTML = `
